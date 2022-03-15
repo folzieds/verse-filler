@@ -1,4 +1,5 @@
 from flask import Flask
+import json
 
 app = Flask(__name__)
 
@@ -6,6 +7,6 @@ app = Flask(__name__)
 def index():
     return "<h1>test</h1>"
 
-@app.route('/health')
+@app.route('/api/v1/health')
 def health():
-    pass
+    return json.dumps({"Status": True})
