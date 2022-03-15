@@ -3,10 +3,10 @@ import json
 
 app = Flask(__name__)
 
-@app.route('/')
+@app.get('/')
 def index():
     return render_template('index.html')
 
-@app.route('/api/v1/health')
+@app.get('/api/v1/health')
 def health():
-    return json.dumps({"Status": True})
+    return json.dumps({"Status": True}), 200, {"ContentType":"application/json"}
