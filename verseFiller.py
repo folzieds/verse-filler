@@ -75,5 +75,8 @@ def add_range_verse_text(verse: str) -> str:
 
     return "\n".join(verse_list)
 
-def downloadFile(filename):
+def download_file(filename):
+    pass
+
+def upload_file(filename):
     pass
