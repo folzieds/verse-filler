@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect, url_for
 from flask_material import Material
 import json
 import verseFiller
@@ -11,9 +11,11 @@ def index():
     return render_template('index.html')
 
 @app.post('/fill')
-def fill_verse(filename):
+def fill_verse():
+    filename = request.files['']
+    verseFiller.upload_file(filename)
     verseFiller.fill_verse_inplace(filename)
-    verseFiller.downloadFile(filename)
+    verseFiller.download_file(filename)
     #download file and delete upon download
 
 @app.get('/api/v1/health')
