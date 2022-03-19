@@ -12,11 +12,15 @@ def index():
 
 @app.post('/fill')
 def fill_verse():
-    filename = request.files['']
-    verseFiller.upload_file(filename)
-    verseFiller.fill_verse_inplace(filename)
-    verseFiller.download_file(filename)
+    uploaded_file = request.files['file']
+    if uploaded_file.filename != '':
+        verseFiller.upload_file(uploaded_file)
+        verseFiller.fill_verse_inplace(uploaded_file.filename)
+        verseFiller.download_file(uploaded_file)
+    else:
+        pass
     #download file and delete upon download
+    return redirect(url_for('index'))
 
 @app.get('/api/v1/health')
 def health():

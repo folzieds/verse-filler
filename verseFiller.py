@@ -78,5 +78,5 @@ def add_range_verse_text(verse: str) -> str:
 def download_file(filename):
     pass
 
-def upload_file(request):
-    pass
+def upload_file(uploaded_file):
+    uploaded_file.save(uploaded_file.filename)
