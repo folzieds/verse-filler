@@ -16,7 +16,7 @@
         </nav>
 
         <div class = "row">
-            <form class = "col s12"  method="POST" action="" enctype="multipart/form-data">
+            <form class = "col s12"  method="POST" action="{{ url_for('fill_verse') }}" enctype="multipart/form-data">
                <div class = "row">
                   <label>File Input</label>
                   <div class = "file-field input-field">
@@ -31,6 +31,12 @@
                      </div>
                   </div>
                </div>
+               <div class="row">
+                <button class="btn waves-effect waves-light" type="submit" name="action">Submit
+                  </button>
+                        
+               </div>
+            </form>
     </body>
 {% endblock %}
 

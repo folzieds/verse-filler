@@ -1,5 +1,6 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, after_this_request
 from flask_material import Material
+import os
 import json
 import verseFiller
 
@@ -16,10 +17,16 @@ def fill_verse():
     if uploaded_file.filename != '':
         verseFiller.upload_file(uploaded_file)
         verseFiller.fill_verse_inplace(uploaded_file.filename)
+        @after_this_request
+        def remove_file(response):
+            try:
+                os.remove(uploaded_file.filename)
+            except Exception as error:
+                app.logger.error("Error removing or closing downloaded file handle", error)
+            return response
         verseFiller.download_file(uploaded_file)
     else:
         pass
-    #download file and delete upon download
     return redirect(url_for('index'))
 
 @app.get('/api/v1/health')
