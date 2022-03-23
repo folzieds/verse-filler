@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, after_this_request
+from flask import Flask, render_template, request, flash,redirect, url_for, after_this_request
 from flask_material import Material
 import os
 import json
@@ -11,23 +11,29 @@ Material(app)
 def index():
     return render_template('index.html')
 
-@app.post('/fill')
-def fill_verse():
-    uploaded_file = request.files['file']
-    if uploaded_file.filename != '':
-        verseFiller.upload_file(uploaded_file)
-        verseFiller.fill_verse_inplace(uploaded_file.filename)
-        @after_this_request
-        def remove_file(response):
-            try:
-                os.remove(uploaded_file.filename)
-            except Exception as error:
-                app.logger.error("Error removing or closing downloaded file handle", error)
-            return response
-        verseFiller.download_file(uploaded_file)
-    else:
-        pass
-    return redirect(url_for('index'))
+@app.route('/test', methods = ['POST'])
+def test():
+    if request.method == 'POST':
+        app.logger.error("This happened!!!")
+    
+    return json.dumps({"Status": True}), 200, {"ContentType":"application/json"}
+
+@app.route('/fill', methods = ['POST'])
+def fill():
+    if request.method == 'POST':
+        if 'file' not in request.files:
+            flash('No file part')
+            return redirect(request.url)
+        file = request.files['file']
+        if file.filename == '':
+            flash('No file selected')
+            return redirect(request.url)
+        else:
+            verseFiller.upload_file(file)
+            verseFiller.fill_verse_inplace(file.filename)
+            verseFiller.download_file(file)
+            os.remove(file.filename)
+    return redirect(request.url)
 
 @app.get('/api/v1/health')
 def health():

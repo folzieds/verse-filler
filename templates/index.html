@@ -16,13 +16,13 @@
         </nav>
 
         <div class = "row">
-            <form class = "col s12"  method="POST" action="{{ url_for('fill_verse') }}" enctype="multipart/form-data">
+            <form class = "col s12"  method="POST" action="{{ url_for('fill') }}" enctype="multipart/form-data">
                <div class = "row">
                   <label>File Input</label>
                   <div class = "file-field input-field">
                      <div class = "btn">
                         <span>Browse</span>
-                        <input type = "file" accept=".doc,.docx"/>
+                        <input type = "file" name="file" accept=".doc,.docx"/>
                      </div>
                      
                      <div class = "file-path-wrapper">
