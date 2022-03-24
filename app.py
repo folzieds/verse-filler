@@ -1,4 +1,5 @@
-from flask import Flask, render_template, request, flash,redirect, url_for, after_this_request
+from flask import Flask, render_template, request, flash,redirect, url_for
+from werkzeug.utils import secure_filename
 from flask_material import Material
 import os
 import json
@@ -29,11 +30,12 @@ def fill():
             flash('No file selected')
             return redirect(request.url)
         else:
+            filename = secure_filename(file.filename)
             verseFiller.upload_file(file)
-            verseFiller.fill_verse_inplace(file.filename)
-            verseFiller.download_file(file)
-            os.remove(file.filename)
-    return redirect(request.url)
+            # verseFiller.fill_verse_inplace(file.filename)
+            verseFiller.download_file(filename)
+            os.remove(filename)
+    return redirect(url_for('.index'))
 
 @app.get('/api/v1/health')
 def health():
