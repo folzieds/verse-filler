@@ -1,8 +1,8 @@
 import docx
 import pandas as pd
 import re
-from flask import send_from_directory
-from pathlib import Path
+from flask import send_file
+import os
 
 
 df_verse = pd.read_csv("verse.csv")
@@ -78,7 +78,7 @@ def add_range_verse_text(verse: str) -> str:
     return "\n".join(verse_list)
 
 def download_file(filename):
-    return send_from_directory(Path("."),Path("."),filename=filename)
+    return send_file(filename,mimetype="docx",as_attachment=True)
 
-def upload_file(uploaded_file):
-    uploaded_file.save(uploaded_file.filename)
+def upload_file(uploaded_file, filename:str):
+    uploaded_file.save(filename)

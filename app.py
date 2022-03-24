@@ -31,11 +31,11 @@ def fill():
             return redirect(request.url)
         else:
             filename = secure_filename(file.filename)
-            verseFiller.upload_file(file)
+            verseFiller.upload_file(file, filename)
             # verseFiller.fill_verse_inplace(file.filename)
-            verseFiller.download_file(filename)
-            os.remove(filename)
-    return redirect(url_for('.index'))
+            return verseFiller.download_file(filename)
+            # os.remove(filename)
+    # return redirect(url_for('.index'))
 
 @app.get('/api/v1/health')
 def health():
