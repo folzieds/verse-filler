@@ -22,20 +22,24 @@ def test():
 @app.route('/fill', methods = ['POST'])
 def fill():
     if request.method == 'POST':
-        if 'file' not in request.files:
-            flash('No file part')
-            return redirect(request.url)
-        file = request.files['file']
-        if file.filename == '':
-            flash('No file selected')
-            return redirect(request.url)
-        else:
-            filename = secure_filename(file.filename)
-            verseFiller.upload_file(file, filename)
-            # verseFiller.fill_verse_inplace(file.filename)
-            return verseFiller.download_file(filename)
-            # os.remove(filename)
-    # return redirect(url_for('.index'))
+        try:
+            if 'file' not in request.files:
+                flash('No file part')
+                return redirect(request.url)
+            file = request.files['file']
+            if file.filename == '':
+                flash('No file selected')
+                return redirect(request.url)
+            else:
+                filename = secure_filename(file.filename)
+                verseFiller.upload_file(file, filename)
+                verseFiller.fill_verse_inplace(filename)
+                return verseFiller.download_file(filename)
+        except:
+            app.logger.error("An Error occured while processing file")
+        finally:
+            os.remove(filename)
+            return redirect(url_for('.index'))
 
 @app.get('/api/v1/health')
 def health():
