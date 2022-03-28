@@ -78,7 +78,7 @@ def add_range_verse_text(verse: str) -> str:
     return "\n".join(verse_list)
 
 def download_file(filename):
-    return send_file(filename,mimetype="docx",as_attachment=True)
+    return send_file(filename,mimetype="docx",as_attachment=False)
 
 def upload_file(uploaded_file, filename:str):
     uploaded_file.save(filename)

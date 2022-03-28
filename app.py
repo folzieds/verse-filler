@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, flash,redirect, url_for
+from flask import Flask, render_template, request, flash,redirect, url_for, after_this_request
 from werkzeug.utils import secure_filename
 from flask_material import Material
 import os
@@ -37,9 +37,6 @@ def fill():
                 return verseFiller.download_file(filename)
         except:
             app.logger.error("An Error occured while processing file")
-        finally:
-            os.remove(filename)
-            return redirect(url_for('.index'))
 
 @app.get('/api/v1/health')
 def health():
