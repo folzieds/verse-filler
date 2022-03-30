@@ -86,7 +86,7 @@ def download_file(filename):
     return_data.seek(0)
 
     os.remove(filename)
-    return send_file(return_data,mimetype="docx",as_attachment=True)
+    return send_file(return_data,mimetype="application/vnd.openxmlformats-officedocument.wordprocessingml.document",as_attachment=True, attachment_filename=filename)
 
 def upload_file(uploaded_file, filename:str):
     uploaded_file.save(filename)
