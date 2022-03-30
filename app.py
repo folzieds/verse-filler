@@ -18,7 +18,7 @@ def test():
     
     return json.dumps({"Status": True}), 200, {"ContentType":"application/json"}
 
-@app.route('api/v1/fill', methods = ['POST'])
+@app.route('/api/v1/fill', methods = ['POST'])
 def fill():
     if request.method == 'POST':
         try:
