@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request, flash,redirect, url_for, after_this_request
 from werkzeug.utils import secure_filename
 from flask_material import Material
-import os
 import json
 import verseFiller
 
@@ -19,7 +18,7 @@ def test():
     
     return json.dumps({"Status": True}), 200, {"ContentType":"application/json"}
 
-@app.route('/fill', methods = ['POST'])
+@app.route('api/v1/fill', methods = ['POST'])
 def fill():
     if request.method == 'POST':
         try:
@@ -34,6 +33,7 @@ def fill():
                 filename = secure_filename(file.filename)
                 verseFiller.upload_file(file, filename)
                 verseFiller.fill_verse_inplace(filename)
+                # write file into io
                 return verseFiller.download_file(filename)
         except:
             app.logger.error("An Error occured while processing file")

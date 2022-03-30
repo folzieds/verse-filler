@@ -3,6 +3,7 @@ import pandas as pd
 import re
 from flask import send_file
 import os
+import io
 
 
 df_verse = pd.read_csv("verse.csv")
@@ -78,7 +79,14 @@ def add_range_verse_text(verse: str) -> str:
     return "\n".join(verse_list)
 
 def download_file(filename):
-    return send_file(filename,mimetype="docx",as_attachment=False)
+    return_data = io.BytesIO()
+    with open(filename, 'rb') as fo:
+        return_data.write(fo.read())
+    # (after writing, cursor will be at last byte, so move it to start)
+    return_data.seek(0)
+
+    os.remove(filename)
+    return send_file(return_data,mimetype="docx",as_attachment=True)
 
 def upload_file(uploaded_file, filename:str):
     uploaded_file.save(filename)
