@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>{% block title %}{{ settings.SETTING }}{% endblock %}</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
     {% extends "material/base.html" %}
 </head>
 {% block content %}
     <body>
-        <nav class="blue" >
+        <nav class="orange" >
             <div class="nav-wrapper container">
                 <a href="#" class="brand-logo left">Verse Filler</a>
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
@@ -15,29 +15,31 @@
             </div>
         </nav>
 
-        <div class="container" >
+        <div class="container white" >
             <div class = "row">
-                <form class = "col s12"  method="POST" action="{{ url_for('fill') }}" enctype="multipart/form-data" id="my_form">
-                <div class = "row">
-                    <label>File Input</label>
-                    <div class = "file-field input-field">
-                        <div class = "btn">
-                            <span>Browse</span>
-                            <input type = "file" name="file" accept=".doc,.docx"/>
+                <div class="col s8">
+                    <form method="POST" action="{{ url_for('fill') }}" enctype="multipart/form-data" id="my_form">
+                        <div class = "row">
+                            <label>File Input</label>
+                            <div class = "file-field input-field">
+                                <div class = "btn">
+                                    <span>Browse</span>
+                                    <input type = "file" name="file" accept=".doc,.docx"/>
+                                </div>
+                                
+                                <div class = "file-path-wrapper">
+                                    <input class = "file-path validate" type = "text"
+                                    placeholder = "Upload file" />
+                                </div>
+                            </div>
                         </div>
-                        
-                        <div class = "file-path-wrapper">
-                            <input class = "file-path validate" type = "text"
-                            placeholder = "Upload file" />
+                        <div class="row">
+                            <button class="btn waves-effect waves-light" type="submit" name="action">Submit
+                            </button>
+                                    
                         </div>
-                    </div>
+                    </form>
                 </div>
-                <div class="row">
-                    <button class="btn waves-effect waves-light" type="submit" name="action">Submit
-                    </button>
-                            
-                </div>
-                </form>
             </div>
         </div>
         <script src="{{url_for('static', filename='index.js')}}"></script>
