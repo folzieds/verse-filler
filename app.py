@@ -34,8 +34,7 @@ def fill():
                 verseFiller.upload_file(file, filename)
                 verseFiller.fill_verse_inplace(filename)
                 # write file into io
-                verseFiller.download_file(filename)
-                return redirect(url_for('index'))
+                return verseFiller.download_file(filename) 
         except:
             app.logger.error("An Error occured while processing file")
 
