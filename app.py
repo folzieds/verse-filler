@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, flash,redirect, url_for, after_this_request
+from flask import Flask, render_template, request, flash,redirect, url_for
 from werkzeug.utils import secure_filename
 from flask_material import Material
 import json
@@ -34,7 +34,8 @@ def fill():
                 verseFiller.upload_file(file, filename)
                 verseFiller.fill_verse_inplace(filename)
                 # write file into io
-                return verseFiller.download_file(filename)
+                verseFiller.download_file(filename)
+                return redirect(url_for('index'))
         except:
             app.logger.error("An Error occured while processing file")
 
