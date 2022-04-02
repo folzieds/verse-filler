@@ -11,6 +11,10 @@ Material(app)
 def index():
     return render_template('index.html')
 
+@app.get('/help')
+def help():
+    return render_template('help.html')
+
 @app.route('/test', methods = ['POST'])
 def test():
     if request.method == 'POST':
