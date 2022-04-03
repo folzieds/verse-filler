@@ -1,11 +1,11 @@
 from flask import Flask, render_template, request, flash,redirect, url_for
 from werkzeug.utils import secure_filename
-from flask_material import Material
+from flask_bootstrap import Bootstrap5
 import json
 import verseFiller
 
 app = Flask(__name__)
-Material(app)
+bootstrap = Bootstrap5(app)
 
 @app.get('/')
 def index():
@@ -15,12 +15,6 @@ def index():
 def help():
     return render_template('help.html')
 
-@app.route('/test', methods = ['POST'])
-def test():
-    if request.method == 'POST':
-        app.logger.error("This happened!!!")
-    
-    return json.dumps({"Status": True}), 200, {"ContentType":"application/json"}
 
 @app.route('/api/v1/fill', methods = ['POST'])
 def fill():
