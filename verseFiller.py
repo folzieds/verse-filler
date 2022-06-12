@@ -4,6 +4,9 @@ import re
 from flask import send_file
 import os
 import io
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 df_verse = pd.read_csv("verse.csv")
@@ -52,8 +55,12 @@ def add_verse_text(verse: str) -> str:
     chapter = int(re.split("[a-zA-z]",verse.split(":",maxsplit = 2)[0])[-1].strip())
     ver = int(verse.split(":",maxsplit = 2)[-1].strip())
     # get the text from the dataframe
-    verse_df = df_verse.loc[(df_verse['book'] == book) & (df_verse['chapter'] == chapter) & (df_verse['verse'] == ver)]
-    verse_text = verse_df.iat[0,3]
+    try:
+        verse_df = df_verse.loc[(df_verse['book'] == book) & (df_verse['chapter'] == chapter) & (df_verse['verse'] == ver)]
+        verse_text = verse_df.iat[0,3]
+    except Exception:
+        logger.error(f'There was an error while fetching verse -> {book} {chapter}: {ver}')
+        verse_text = ''
 
     return f"{book} {chapter}: {ver} - {verse_text}"
 
@@ -71,8 +78,12 @@ def add_range_verse_text(verse: str) -> str:
     verse_list = []
     # get the text from the dataframe
     for ver in range(ver_start,ver_end+1):
-        verse_df = df_verse.loc[(df_verse['book'] == book) & (df_verse['chapter'] == chapter) & (df_verse['verse'] == ver)]
-        verse_text = verse_df.iat[0,3]
+        try:
+            verse_df = df_verse.loc[(df_verse['book'] == book) & (df_verse['chapter'] == chapter) & (df_verse['verse'] == ver)]
+            verse_text = verse_df.iat[0,3]
+        except Exception:
+            logger.error(f'There was an error while fetching verse -> {book} {chapter}: {ver}')
+            verse_text = ''
         verse_compile = f"{book} {chapter}: {ver} - {verse_text}"
         verse_list.append(verse_compile)
 
