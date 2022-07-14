@@ -56,13 +56,13 @@ def add_verse_text(verse: str) -> str:
     ver = int(verse.split(":",maxsplit = 2)[-1].strip())
     # get the text from the dataframe
     try:
-        verse_df = df_verse.loc[(df_verse['book'] == book) & (df_verse['chapter'] == chapter) & (df_verse['verse'] == ver)]
+        verse_df = df_verse.loc[(df_verse['book'] == book.title()) & (df_verse['chapter'] == chapter) & (df_verse['verse'] == ver)]
         verse_text = verse_df.iat[0,3]
     except Exception:
         logger.error(f'There was an error while fetching verse -> {book} {chapter}: {ver}')
         verse_text = ''
 
-    return f"{book} {chapter}: {ver} - {verse_text}"
+    return f"{book.title()} {chapter}: {ver} - {verse_text}"
 
 def add_range_verse_text(verse: str) -> str:
     # split the verse into book chapter and verse
@@ -79,12 +79,12 @@ def add_range_verse_text(verse: str) -> str:
     # get the text from the dataframe
     for ver in range(ver_start,ver_end+1):
         try:
-            verse_df = df_verse.loc[(df_verse['book'] == book) & (df_verse['chapter'] == chapter) & (df_verse['verse'] == ver)]
+            verse_df = df_verse.loc[(df_verse['book'] == book.title()) & (df_verse['chapter'] == chapter) & (df_verse['verse'] == ver)]
             verse_text = verse_df.iat[0,3]
         except Exception:
             logger.error(f'There was an error while fetching verse -> {book} {chapter}: {ver}')
             verse_text = ''
-        verse_compile = f"{book} {chapter}: {ver} - {verse_text}"
+        verse_compile = f"{book.title()} {chapter}: {ver} - {verse_text}"
         verse_list.append(verse_compile)
 
     return "\n".join(verse_list)
