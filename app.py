@@ -21,7 +21,7 @@ def fill():
     if request.method == 'POST':
         try:
             if 'file' not in request.files:
-                flash('No file part')
+                flash('No file path')
                 return redirect(request.url)
             file = request.files['file']
             if file.filename == '':
@@ -34,7 +34,7 @@ def fill():
                 # write file into io
                 return verseFiller.download_file(filename) 
         except:
-            app.logger.error("An Error occured while processing file")
+            app.logger.error("An Error occurred while processing file")
 
 @app.get('/api/v1/health')
 def health():
